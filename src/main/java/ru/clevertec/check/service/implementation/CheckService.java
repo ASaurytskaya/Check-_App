@@ -63,7 +63,7 @@ public class CheckService implements ICheckService {
                     .append(String.format("%.2f", item.getTotalPrice())).append('$').append('\n');
         }
 
-        if (check.discountCard() != null) {
+        if (check.discountCard().number() != 0) {
             builder.append("\nDISCOUNT CARD;DISCOUNT PERCENTAGE\n")
                     .append(check.discountCard().number()).append(';')
                     .append(check.discountCard().discountAmount()).append('%');
