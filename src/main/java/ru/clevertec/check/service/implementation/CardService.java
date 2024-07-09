@@ -17,6 +17,8 @@ public class CardService implements ICardService {
         DiscountCard card = cardDao.getCardByNumber(number);
         if(card == null && number != 0) {
             card = new DiscountCard(0, number, (short) 2);
+        } else {
+            card = new DiscountCard(0, 0,  (short) 0);
         }
         return card;
     }

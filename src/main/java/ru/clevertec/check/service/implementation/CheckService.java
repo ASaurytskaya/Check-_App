@@ -36,14 +36,13 @@ public class CheckService implements ICheckService {
 
         DiscountCard card = cardService.getCardByNumber(discountCardNumber);
         checkBuilder.setDiscountCard(card);
-        short discount = card == null ? 0 : card.discountAmount();
 
         for(ProductRequest pr : productRequestList) {
             Product product = productService.getProductById(pr.getId());
             if(product.qntInStock() < pr.getQuantity()) {
                 throw new BadRequestException(MESSAGE_NO_SUCH_PRODUCT + pr.getId());
             }
-            CartItem item = new CartItem(product, pr.getQuantity(), discount);
+            CartItem item = new CartItem(product, pr.getQuantity(), card.discountAmount());
             checkBuilder.addCartItem(item);
         }
 
