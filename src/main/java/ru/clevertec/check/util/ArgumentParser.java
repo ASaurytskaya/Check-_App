@@ -38,6 +38,9 @@ public class ArgumentParser {
                  try {
                      int id = Integer.parseInt(parts[0]);
                      int quantity = Integer.parseInt(parts[1]);
+
+                     if(quantity <= 0) throw new BadRequestException("Количество заказанного товара не может быть равно 0.");
+
                      ProductRequest pr = new ProductRequest(id, quantity);
                      int i = products.indexOf(pr);
                      if(i < 0) {
