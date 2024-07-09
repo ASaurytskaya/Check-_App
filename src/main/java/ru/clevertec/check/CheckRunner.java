@@ -12,12 +12,15 @@ import ru.clevertec.check.util.CsvWriter;
 
 
 public class CheckRunner {
+    private static final String DISCOUNT_CARDS_FILENAME = "./src/main/resources/discountCards.csv";
+    private static final String PRODUCTS_FILENAME = "./src/main/resources/products.csv";
 
     public static void main(String[] args) {
         CsvWriter writer = new CsvWriter();
         try {
-            ICheckService checkService = new CheckService(new ProductService(DaoFactory.createProductFromFileDao()),
-                    new CardService(DaoFactory.createCardFromFileDao()));
+            ICheckService checkService = new CheckService(
+                    new ProductService(DaoFactory.createProductFromFileDao(PRODUCTS_FILENAME)),
+                    new CardService(DaoFactory.createCardFromFileDao(DISCOUNT_CARDS_FILENAME)));
             Check check = checkService.createCheck(args);
             String result = checkService.checkToText(check);
             System.out.println(result);

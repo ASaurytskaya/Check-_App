@@ -11,15 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CardFromFileDao implements ICardDao {
+
+    private final String filename;
     private Map<Integer, DiscountCard> cards;
 
-    private static final String DISCOUNT_CARDS_FILENAME = "./src/main/resources/discountCards.csv";
+    public CardFromFileDao(String filename) {
+        this.filename = filename;
+    }
 
     @Override
     public DiscountCard getCardByNumber(int number) {
-        DiscountCard card;
         if(cards == null) {
-            readCardsFromCsv(DISCOUNT_CARDS_FILENAME);
+            readCardsFromCsv(filename);
         }
         return cards.get(number);
     }

@@ -8,7 +8,7 @@ import java.util.List;
 public class CheckBuilder {
     private DiscountCard discountCard;
     private DebitCard debitCard;
-    private List<CartItem> items = new ArrayList<>();
+    private final List<CartItem> items = new ArrayList<>();
     private double totalPrice = 0;
     private double totalDiscount = 0;
 

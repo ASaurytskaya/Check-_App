@@ -11,14 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductFromFileDao implements IProductDao {
+
+    private final String filename;
     private Map<Integer, Product> products;
 
-    private static final String PRODUCTS_FILENAME = "./src/main/resources/products.csv";
+    public ProductFromFileDao(String filename) {
+        this.filename = filename;
+    }
 
     @Override
     public Product getProductById(int id) {
         if(products == null) {
-            readProductsFromCsv(PRODUCTS_FILENAME);
+            readProductsFromCsv(this.filename);
         }
 
         return products.get(id);

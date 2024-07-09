@@ -6,7 +6,7 @@ import ru.clevertec.check.service.api.ICardService;
 
 public class CardService implements ICardService {
 
-    private ICardDao cardDao;
+    private final ICardDao cardDao;
 
     public CardService(ICardDao cardDao) {
         this.cardDao = cardDao;
