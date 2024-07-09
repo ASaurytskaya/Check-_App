@@ -15,11 +15,10 @@ public class CardService implements ICardService {
     @Override
     public DiscountCard getCardByNumber(int number) {
         DiscountCard card = cardDao.getCardByNumber(number);
-        if(card == null && number != 0) {
-            card = new DiscountCard(0, number, (short) 2);
-        } else {
-            card = new DiscountCard(0, 0,  (short) 0);
-        }
-        return card;
+        if(card != null) return  card;
+
+        if (number != 0) return new DiscountCard(0, number, (short) 2);
+
+        return new DiscountCard(0, 0, (short) 0);
     }
 }
