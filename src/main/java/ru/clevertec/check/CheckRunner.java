@@ -29,7 +29,7 @@ public class CheckRunner {
             System.out.println(e.getMessage());
             writer.writeToCsv(e.getMessage());
         } catch (Exception e) {
-            System.out.println("INTERNAL SERVER ERROR\n" + e.getMessage());
+            System.out.println("ERROR\nINTERNAL SERVER ERROR\n" + e.getMessage());
             writer.writeToCsv("INTERNAL SERVER ERROR");
         }
     }

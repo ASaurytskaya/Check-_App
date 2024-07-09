@@ -14,7 +14,7 @@ public class CheckService implements ICheckService {
     private final IProductService productService;
     private final ICardService cardService;
 
-    private static final String MESSAGE_NO_SUCH_PRODUCT = "Запрашиваемый товар не найден, id - ";
+    private static final String MESSAGE_NOT_ENOUGH_PRODUCT = "На складе недостаточно товара с id - ";
 
     public CheckService(IProductService productService, ICardService cardService) {
         this.productService = productService;
@@ -40,7 +40,7 @@ public class CheckService implements ICheckService {
         for(ProductRequest pr : productRequestList) {
             Product product = productService.getProductById(pr.getId());
             if(product.qntInStock() < pr.getQuantity()) {
-                throw new BadRequestException(MESSAGE_NO_SUCH_PRODUCT + pr.getId());
+                throw new BadRequestException(MESSAGE_NOT_ENOUGH_PRODUCT + pr.getId());
             }
             CartItem item = new CartItem(product, pr.getQuantity(), card.discountAmount());
             checkBuilder.addCartItem(item);
