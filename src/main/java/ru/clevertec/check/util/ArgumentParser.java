@@ -16,6 +16,9 @@ public class ArgumentParser {
         for (String arg : args) {
              if (arg.startsWith("discountCard=")) {
                 String number = arg.split("=")[1];
+                if(number.length() != 4) {
+                    throw new BadRequestException(arg);
+                }
                 try {
                     discountCardNumber = Integer.parseInt(number);
                 }  catch (NumberFormatException e) {
