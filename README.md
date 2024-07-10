@@ -20,16 +20,18 @@ Check Creator – это консольное приложение, реализ
 
 Для запуска приложения используйте следующую команду:
 
-    java -cp out ru.clevertec.check.CheckRunner id-quantity discountCard=хххх balanceDebitCard=хххх
+    java -cp out ru.clevertec.check.CheckRunner id-quantity discountCard=хххх balanceDebitCard=хххх  pathToFile=xxxx saveToFile=xxxx
 
 
 * id-quantity – пары идентификаторов товаров и их количества. Например, 3-1 означает товар с идентификатором 3 в количестве 1. 
 * discountCard=xxxx – номер дисконтной карты. Например, discountCard=1111. 
 * balanceDebitCard=xxxx – баланс дебетовой карты. Например, balanceDebitCard=100.
+* pathToFile=xxxx – включает относительный (от корневой директории проекта) путь + название файла с расширением.
+* saveToFile=xxxx – включает относительный (от корневой директории проекта) путь + название файла с расширением.
 
 Пример команды для запуска:
 
-    java -cp out ru.clevertec.check.CheckRunner 3-1 2-5 5-1 discountCard=1111 balanceDebitCard=100
+    java -cp out ru.clevertec.check.CheckRunner 3-1 2-5 5-1 discountCard=1111 balanceDebitCard=100 pathToFile=src/main/resources/products.csv saveToFile=src/main/resources/result.csv
 
 ## Исключения
 Приложение может выбрасывать следующие исключения:

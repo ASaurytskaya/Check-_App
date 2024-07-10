@@ -3,6 +3,7 @@ package ru.clevertec.check.util;
 import ru.clevertec.check.core.dto.DebitCard;
 import ru.clevertec.check.core.dto.ProductRequest;
 import ru.clevertec.check.exception.BadRequestException;
+import ru.clevertec.check.exception.NoPathToSaveFileException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,8 @@ public class ArgumentParser {
         List<ProductRequest> products = new ArrayList<>();
         int discountCardNumber = 0;
         double balanceDebitCard = 0;
+        String pathToFile = null;
+        String saveToFile = null;
 
         for (String arg : args) {
              if (arg.startsWith("discountCard=")) {
@@ -24,13 +27,25 @@ public class ArgumentParser {
                 }  catch (NumberFormatException e) {
                 throw new BadRequestException(arg);
                 }
-            } else if (arg.startsWith("balanceDebitCard=")) {
+             } else if (arg.startsWith("balanceDebitCard=")) {
                 try {
                     balanceDebitCard = Double.parseDouble(arg.split("=")[1]);
                 } catch (NumberFormatException e) {
                     throw new BadRequestException(arg);
                 }
-            } else {
+             } else if(arg.startsWith("saveToFile=")) {
+                 String path = arg.split("=")[1];
+                 if(!path.endsWith(".csv")) {
+                     throw new NoPathToSaveFileException();
+                 }
+                 saveToFile = path;
+             } else if(arg.startsWith("pathToFile=")) {
+                 String path = arg.split("=")[1];
+                 if(!path.endsWith(".csv")) {
+                     throw new BadRequestException(arg);
+                 }
+                 pathToFile = path;
+             } else {
                  String[] parts = arg.split("-");
                  if (parts.length != 2) {
                      throw new BadRequestException(arg);
@@ -52,7 +67,7 @@ public class ArgumentParser {
                  } catch (NumberFormatException e) {
                      throw new BadRequestException(arg);
                  }
-            }
+             }
         }
 
         if (products.isEmpty()) {
@@ -63,9 +78,17 @@ public class ArgumentParser {
             throw new BadRequestException("Не передан баланс карты.");
         }
 
-        return new ParsedArguments(products, discountCardNumber,new DebitCard(balanceDebitCard));
+        if(saveToFile == null) {
+            throw new NoPathToSaveFileException();
+        }
+
+        if(pathToFile == null) {
+            throw new BadRequestException("Не передан путь к файлу для считывания списка товаров.");
+        }
+
+        return new ParsedArguments(products, discountCardNumber,new DebitCard(balanceDebitCard), pathToFile, saveToFile);
     }
 
-    public record ParsedArguments(List<ProductRequest> products, int discountCardNumber, DebitCard balanceDebitCard) {
+    public record ParsedArguments(List<ProductRequest> products, int discountCardNumber, DebitCard balanceDebitCard, String pathToFile, String saveToFile) {
     }
 }
