@@ -1,5 +1,6 @@
 package ru.clevertec.check.util;
 
+import ru.clevertec.check.core.dto.DBSettings;
 import ru.clevertec.check.core.dto.DebitCard;
 import ru.clevertec.check.core.dto.ProductRequest;
 import ru.clevertec.check.exception.BadRequestException;
@@ -13,8 +14,8 @@ public class ArgumentParser {
         List<ProductRequest> products = new ArrayList<>();
         int discountCardNumber = 0;
         double balanceDebitCard = 0;
-        String pathToFile = null;
         String saveToFile = null;
+        String url = null, username = null, password = null;
 
         for (String arg : args) {
              if (arg.startsWith("discountCard=")) {
@@ -39,12 +40,14 @@ public class ArgumentParser {
                      throw new NoPathToSaveFileException();
                  }
                  saveToFile = path;
-             } else if(arg.startsWith("pathToFile=")) {
-                 String path = arg.split("=")[1];
-                 if(!path.endsWith(".csv")) {
-                     throw new BadRequestException(arg);
+             } else if (arg.startsWith("datasource")) {
+                 if(arg.startsWith("datasource.url=")) {
+                     url = arg.split("=", 2)[1];
+                 } else if(arg.startsWith("datasource.username=")) {
+                     username = arg.split("=", 2)[1];
+                 } else if(arg.startsWith("datasource.password=")) {
+                     password = arg.split("=", 2)[1];
                  }
-                 pathToFile = path;
              } else {
                  String[] parts = arg.split("-");
                  if (parts.length != 2) {
@@ -82,13 +85,17 @@ public class ArgumentParser {
             throw new NoPathToSaveFileException();
         }
 
-        if(pathToFile == null) {
-            throw new BadRequestException("Не передан путь к файлу для считывания списка товаров.");
+        if(url == null || username == null || password == null) {
+            throw new BadRequestException("Не переданы настройки подключения к БД.");
         }
 
-        return new ParsedArguments(products, discountCardNumber,new DebitCard(balanceDebitCard), pathToFile, saveToFile);
+        return new ParsedArguments(
+                products,
+                discountCardNumber,
+                new DebitCard(balanceDebitCard),
+                saveToFile,
+                new DBSettings(url, username, password));
     }
 
-    public record ParsedArguments(List<ProductRequest> products, int discountCardNumber, DebitCard balanceDebitCard, String pathToFile, String saveToFile) {
-    }
+    public record ParsedArguments(List<ProductRequest> products, int discountCardNumber, DebitCard balanceDebitCard, String saveToFile, DBSettings dbSettings) {}
 }

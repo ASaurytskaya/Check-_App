@@ -15,7 +15,6 @@ import ru.clevertec.check.util.CsvWriter;
 
 
 public class CheckRunner {
-    private static final String DISCOUNT_CARDS_FILENAME = "./src/main/resources/discountCards.csv";
     private static final String RESULT_FILENAME = "./src/main/resources/result.csv";
 
     public static void main(String[] args) {
@@ -40,8 +39,8 @@ public class CheckRunner {
 
     protected static String run(ArgumentParser.ParsedArguments parsedArguments) {
         ICheckService checkService = new CheckService(
-                new ProductService(DaoFactory.createProductFromFileDao(parsedArguments.pathToFile())),
-                new CardService(DaoFactory.createCardFromFileDao(DISCOUNT_CARDS_FILENAME)));
+                new ProductService(DaoFactory.createProductFromDBDao(parsedArguments.dbSettings())),
+                new CardService(DaoFactory.createCardFromDBDao(parsedArguments.dbSettings())));
         Check check = checkService.createCheck(parsedArguments.products(), parsedArguments.discountCardNumber(), parsedArguments.balanceDebitCard());
         return checkService.checkToText(check);
     }

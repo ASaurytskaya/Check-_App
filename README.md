@@ -7,6 +7,8 @@ Check Creator – это консольное приложение, реализ
 ## Техничекие требования:
 
 - Java 21 или выше
+- PostgreSQL
+- Gradle 8.5
 
 ## Сборка и запуск
 
@@ -14,24 +16,24 @@ Check Creator – это консольное приложение, реализ
 
 Для компиляции проекта используйте следующую команду:
 
-    javac -d out $(find src/main/java -name "*.java")
+    ./gradlew clean build
 
 ### Запуск
 
 Для запуска приложения используйте следующую команду:
 
-    java -cp out ru.clevertec.check.CheckRunner id-quantity discountCard=хххх balanceDebitCard=хххх  pathToFile=xxxx saveToFile=xxxx
+    java -jar build/libs/clevertec-check-1.0.jar id-quantity discountCard=хххх balanceDebitCard=хххх  saveToFile=xxx datasource.url=ххх datasource.username=ххх datasource.password=ххх
 
 
 * id-quantity – пары идентификаторов товаров и их количества. Например, 3-1 означает товар с идентификатором 3 в количестве 1. 
 * discountCard=xxxx – номер дисконтной карты. Например, discountCard=1111. 
 * balanceDebitCard=xxxx – баланс дебетовой карты. Например, balanceDebitCard=100.
-* pathToFile=xxxx – включает относительный (от корневой директории проекта) путь + название файла с расширением.
 * saveToFile=xxxx – включает относительный (от корневой директории проекта) путь + название файла с расширением.
+* datasource.url=ххх, datasource.username=ххх, datasource.password=ххх – настройки подключения к базе данных.
 
 Пример команды для запуска:
 
-    java -cp out ru.clevertec.check.CheckRunner 3-1 2-5 5-1 discountCard=1111 balanceDebitCard=100 pathToFile=src/main/resources/products.csv saveToFile=src/main/resources/result.csv
+    java -cp out ru.clevertec.check.CheckRunner 3-1 2-5 5-1 discountCard=1111 balanceDebitCard=100 saveToFile=src/main/resources/result.csv datasource.url=jdbc:postgresql://localhost:5430/check datasource.username=postgres datasource.password=postgres
 
 ## Исключения
 Приложение может выбрасывать следующие исключения:

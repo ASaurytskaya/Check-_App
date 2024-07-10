@@ -1,16 +1,18 @@
 package ru.clevertec.check.dao.factory;
 
+import ru.clevertec.check.core.dto.DBSettings;
 import ru.clevertec.check.dao.api.ICardDao;
 import ru.clevertec.check.dao.api.IProductDao;
-import ru.clevertec.check.dao.implementation.CardFromFileDao;
-import ru.clevertec.check.dao.implementation.ProductFromFileDao;
+import ru.clevertec.check.dao.implementation.from_database.CardFromDBDao;
+import ru.clevertec.check.dao.implementation.from_database.ProductFromDBDao;
 
 public class DaoFactory {
-    public static IProductDao createProductFromFileDao(String filename) {
-        return new ProductFromFileDao(filename);
+
+    public static ICardDao createCardFromDBDao(DBSettings dbSettings) {
+        return new CardFromDBDao(dbSettings);
     }
 
-    public static ICardDao createCardFromFileDao(String filename) {
-        return new CardFromFileDao(filename);
+    public  static IProductDao createProductFromDBDao(DBSettings dbSettings) {
+        return new ProductFromDBDao(dbSettings);
     }
 }
