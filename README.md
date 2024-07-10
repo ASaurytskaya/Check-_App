@@ -14,15 +14,18 @@ Check Creator – это консольное приложение, реализ
 
 ### Сборка
 
-Для компиляции проекта используйте следующую команду:
+Для сборки проекта используйте следующую команду:
 
     ./gradlew clean build
 
 ### Запуск
+Перед первым запуском приложения используйте команду:
+
+    tar xvf build/**/*.tar
 
 Для запуска приложения используйте следующую команду:
 
-    java -jar build/libs/clevertec-check-1.0.jar id-quantity discountCard=хххх balanceDebitCard=хххх  saveToFile=xxx datasource.url=ххх datasource.username=ххх datasource.password=ххх
+    ./clevertec-check/bin/clevertec-check id-quantity discountCard=хххх balanceDebitCard=хххх  saveToFile=xxx datasource.url=ххх datasource.username=ххх datasource.password=ххх
 
 
 * id-quantity – пары идентификаторов товаров и их количества. Например, 3-1 означает товар с идентификатором 3 в количестве 1. 
@@ -33,7 +36,7 @@ Check Creator – это консольное приложение, реализ
 
 Пример команды для запуска:
 
-    java -cp out ru.clevertec.check.CheckRunner 3-1 2-5 5-1 discountCard=1111 balanceDebitCard=100 saveToFile=src/main/resources/result.csv datasource.url=jdbc:postgresql://localhost:5430/check datasource.username=postgres datasource.password=postgres
+    ./clevertec-check/bin/clevertec-check 3-1 2-5 5-1 discountCard=1111 balanceDebitCard=100 saveToFile=src/main/resources/result.csv datasource.url=jdbc:postgresql://localhost:5432/check datasource.username=postgres datasource.password=postgres    
 
 ## Исключения
 Приложение может выбрасывать следующие исключения:
