@@ -22,14 +22,6 @@ public class CheckService implements ICheckService {
     }
 
     @Override
-    public Check createCheck(String[] args) {
-        ArgumentParser.ParsedArguments parsedArgs = ArgumentParser.parseArguments(args);
-        List<ProductRequest> productRequestList = parsedArgs.products();
-        int discountCardNumber = parsedArgs.discountCardNumber();
-        DebitCard debitCard = parsedArgs.balanceDebitCard();
-        return createCheck(productRequestList,discountCardNumber,debitCard);
-    }
-
     public Check createCheck(List<ProductRequest> productRequestList, int discountCardNumber, DebitCard debitCard) {
         CheckBuilder checkBuilder = new CheckBuilder();
         checkBuilder.setDebitCard(debitCard);
